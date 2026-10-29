@@ -4,6 +4,10 @@
 	"main": "./src/worker.ts",
 	"compatibility_date": "2026-02-24",
 	"compatibility_flags": ["nodejs_compat"],
+	// 独自ドメイン（Cloudflareで管理している shiroi-hackers.com）
+	"routes": [
+		{ "pattern": "shiroi-hackers.com", "custom_domain": true },
+	],
 	"d1_databases": [
 		{
 			"binding": "DB",
