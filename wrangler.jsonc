@@ -11,6 +11,13 @@
 			"database_name": "shiroi-hackers",
 		},
 	],
+	// 前回のデプロイで先に作られたセッション用KVを使い回す
+	"kv_namespaces": [
+		{
+			"binding": "SESSION",
+			"id": "9e72632bc2a34c56af9dc8093d6f49c9",
+		},
+	],
 	"r2_buckets": [
 		{
 			"binding": "MEDIA",
