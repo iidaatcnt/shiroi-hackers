@@ -1,0 +1,845 @@
+{
+	"$schema": "https://emdashcms.com/seed.schema.json",
+	"version": "1",
+	"meta": {
+		"name": "白いハッカース",
+		"description": "千葉県白井市のプログラミング教室「白いハッカース」の公式サイト",
+		"author": "白いハッカース"
+	},
+	"settings": {
+		"title": "白いハッカース",
+		"tagline": "千葉県白井市のプログラミング教室"
+	},
+	"collections": [
+		{
+			"slug": "posts",
+			"label": "お知らせ",
+			"labelSingular": "お知らせ",
+			"urlPattern": "/news/{slug}",
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview",
+				"scheduling",
+				"search",
+				"seo"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "タイトル",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "excerpt",
+					"label": "概要（一覧に出る短い説明）",
+					"type": "text",
+					"searchable": true
+				},
+				{
+					"slug": "featured_image",
+					"label": "アイキャッチ画像",
+					"type": "image"
+				},
+				{
+					"slug": "content",
+					"label": "本文",
+					"type": "portableText",
+					"searchable": true
+				}
+			]
+		},
+		{
+			"slug": "pages",
+			"label": "固定ページ",
+			"labelSingular": "固定ページ",
+			"urlPattern": "/{slug}",
+			"supports": [
+				"drafts",
+				"revisions",
+				"preview",
+				"search",
+				"seo"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "タイトル",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "content",
+					"label": "本文",
+					"type": "portableText",
+					"searchable": true
+				}
+			]
+		}
+	],
+	"taxonomies": [
+		{
+			"name": "category",
+			"label": "カテゴリ",
+			"labelSingular": "カテゴリ",
+			"hierarchical": true,
+			"collections": [
+				"posts"
+			],
+			"terms": [
+				{
+					"slug": "info",
+					"label": "お知らせ"
+				},
+				{
+					"slug": "event",
+					"label": "体験会・イベント"
+				},
+				{
+					"slug": "blog",
+					"label": "教室ブログ"
+				}
+			]
+		},
+		{
+			"name": "tag",
+			"label": "タグ",
+			"labelSingular": "タグ",
+			"hierarchical": false,
+			"collections": [
+				"posts"
+			],
+			"terms": [
+				{
+					"slug": "programming",
+					"label": "プログラミング"
+				},
+				{
+					"slug": "security",
+					"label": "セキュリティ"
+				},
+				{
+					"slug": "shiroi",
+					"label": "白井市"
+				}
+			]
+		}
+	],
+	"bylines": [
+		{
+			"id": "byline-principal",
+			"slug": "principal",
+			"displayName": "校長 飯田 正勝"
+		}
+	],
+	"menus": [
+		{
+			"name": "primary",
+			"label": "メインメニュー",
+			"items": [
+				{
+					"type": "custom",
+					"label": "ホーム",
+					"url": "/"
+				},
+				{
+					"type": "custom",
+					"label": "教室について",
+					"url": "/about"
+				},
+				{
+					"type": "custom",
+					"label": "お知らせ",
+					"url": "/news"
+				},
+				{
+					"type": "custom",
+					"label": "お問い合わせ",
+					"url": "/contact"
+				}
+			]
+		}
+	],
+	"widgetAreas": [
+		{
+			"name": "sidebar",
+			"label": "サイドバー",
+			"description": "お知らせページの右側に表示されるエリア",
+			"widgets": [
+				{
+					"type": "component",
+					"componentId": "core:search",
+					"title": "サイト内を検索"
+				},
+				{
+					"type": "component",
+					"componentId": "core:recent-posts",
+					"title": "新着のお知らせ",
+					"props": {
+						"count": 5,
+						"showDate": true
+					}
+				},
+				{
+					"type": "component",
+					"componentId": "core:categories",
+					"title": "カテゴリ"
+				}
+			]
+		},
+		{
+			"name": "footer",
+			"label": "フッター",
+			"description": "サイト下部に表示されるエリア",
+			"widgets": [
+				{
+					"type": "content",
+					"title": "白いハッカースについて",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "千葉県白井市のプログラミング教室です。システムやサイトを守る側の技術を学びます。",
+									"_key": "k0"
+								}
+							],
+							"_key": "k1",
+							"markDefs": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"sections": [
+		{
+			"slug": "point-box",
+			"title": "ポイント",
+			"description": "本文の途中に入れる「ポイント」の囲み",
+			"keywords": [
+				"ポイント",
+				"point"
+			],
+			"source": "theme",
+			"content": [
+				{
+					"_type": "block",
+					"style": "blockquote",
+					"children": [
+						{
+							"_type": "span",
+							"text": "ポイント：",
+							"_key": "k2",
+							"marks": [
+								"strong"
+							]
+						},
+						{
+							"_type": "span",
+							"text": "ここに覚えておきたいことを書きます。",
+							"_key": "k3"
+						}
+					],
+					"_key": "k4",
+					"markDefs": []
+				}
+			]
+		},
+		{
+			"slug": "coming-soon",
+			"title": "準備中",
+			"description": "まだ決まっていない情報の囲み",
+			"keywords": [
+				"準備中",
+				"未定"
+			],
+			"source": "theme",
+			"content": [
+				{
+					"_type": "block",
+					"style": "blockquote",
+					"children": [
+						{
+							"_type": "span",
+							"text": "この項目は準備中です。決まりしだい、このページでお知らせします。",
+							"_key": "k5"
+						}
+					],
+					"_key": "k6",
+					"markDefs": []
+				}
+			]
+		}
+	],
+	"content": {
+		"pages": [
+			{
+				"id": "home",
+				"slug": "home",
+				"status": "published",
+				"data": {
+					"title": "トップページ",
+					"content": [
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "名前の由来",
+									"_key": "k7"
+								}
+							],
+							"_key": "k8",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "「白いハッカース」は、地名の「白井」と「白い」、そして守る側の「ハッカーズ」を掛けた名前です。攻撃する側ではなく、システムやサイトを守る側の技術を学ぶ教室です。",
+									"_key": "k9"
+								}
+							],
+							"_key": "k10",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "教室について",
+									"_key": "k11"
+								}
+							],
+							"_key": "k12",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "千葉県白井市でプログラミングを教える教室です。",
+									"_key": "k13"
+								}
+							],
+							"_key": "k14",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "対象年齢・コース内容・料金・開講日時・場所は、ただいま準備中です。",
+									"_key": "k15"
+								}
+							],
+							"_key": "k16",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "教室について詳しく見る →",
+									"_key": "k18",
+									"marks": [
+										"k17"
+									]
+								}
+							],
+							"_key": "k19",
+							"markDefs": [
+								{
+									"_type": "link",
+									"_key": "k17",
+									"href": "/about"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "校長",
+									"_key": "k20"
+								}
+							],
+							"_key": "k21",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "飯田 正勝　",
+									"_key": "k22",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": "IT歴30年超。有限会社CNTサービス代表。",
+									"_key": "k23"
+								}
+							],
+							"_key": "k24",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "関連サイト",
+									"_key": "k25"
+								}
+							],
+							"_key": "k26",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "AIカテキョ",
+									"_key": "k28",
+									"marks": [
+										"k27"
+									]
+								},
+								{
+									"_type": "span",
+									"text": "：経営者・ビジネスリーダー向けのAI家庭教師",
+									"_key": "k29"
+								}
+							],
+							"_key": "k30",
+							"markDefs": [
+								{
+									"_type": "link",
+									"_key": "k27",
+									"href": "https://ai-katekyo.net/"
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "有限会社CNTサービス",
+									"_key": "k32",
+									"marks": [
+										"k31"
+									]
+								},
+								{
+									"_type": "span",
+									"text": "：中小企業向けのIT総合サポート",
+									"_key": "k33"
+								}
+							],
+							"_key": "k34",
+							"markDefs": [
+								{
+									"_type": "link",
+									"_key": "k31",
+									"href": "https://cntsv.com/"
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "AI TasCal",
+									"_key": "k36",
+									"marks": [
+										"k35"
+									]
+								},
+								{
+									"_type": "span",
+									"text": "：企業向けのAI導入と伴走型のアウトソーシング",
+									"_key": "k37"
+								}
+							],
+							"_key": "k38",
+							"markDefs": [
+								{
+									"_type": "link",
+									"_key": "k35",
+									"href": "https://aitascal.net/"
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "WP保守ドットコム",
+									"_key": "k40",
+									"marks": [
+										"k39"
+									]
+								},
+								{
+									"_type": "span",
+									"text": "：WordPressやサーバーの保守、セキュリティ対策の代行",
+									"_key": "k41"
+								}
+							],
+							"_key": "k42",
+							"markDefs": [
+								{
+									"_type": "link",
+									"_key": "k39",
+									"href": "https://wp-hoshu.com/"
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						}
+					]
+				}
+			},
+			{
+				"id": "about",
+				"slug": "about",
+				"status": "published",
+				"data": {
+					"title": "教室について",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "白いハッカースは、千葉県白井市のプログラミング教室です。",
+									"_key": "k43"
+								}
+							],
+							"_key": "k44",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "どんな教室？",
+									"_key": "k45"
+								}
+							],
+							"_key": "k46",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "攻撃する側ではなく、システムやサイトを守る側の技術を学ぶ教室です。",
+									"_key": "k47"
+								}
+							],
+							"_key": "k48",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "対象年齢",
+									"_key": "k49"
+								}
+							],
+							"_key": "k50",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "blockquote",
+							"children": [
+								{
+									"_type": "span",
+									"text": "準備中です。決まりしだい、このページでお知らせします。",
+									"_key": "k51"
+								}
+							],
+							"_key": "k52",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "コース内容",
+									"_key": "k53"
+								}
+							],
+							"_key": "k54",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "blockquote",
+							"children": [
+								{
+									"_type": "span",
+									"text": "準備中です。決まりしだい、このページでお知らせします。",
+									"_key": "k55"
+								}
+							],
+							"_key": "k56",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "料金",
+									"_key": "k57"
+								}
+							],
+							"_key": "k58",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "blockquote",
+							"children": [
+								{
+									"_type": "span",
+									"text": "準備中です。決まりしだい、このページでお知らせします。",
+									"_key": "k59"
+								}
+							],
+							"_key": "k60",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "開講日時",
+									"_key": "k61"
+								}
+							],
+							"_key": "k62",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "blockquote",
+							"children": [
+								{
+									"_type": "span",
+									"text": "準備中です。決まりしだい、このページでお知らせします。",
+									"_key": "k63"
+								}
+							],
+							"_key": "k64",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "場所・アクセス",
+									"_key": "k65"
+								}
+							],
+							"_key": "k66",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "blockquote",
+							"children": [
+								{
+									"_type": "span",
+									"text": "準備中です。決まりしだい、このページでお知らせします。",
+									"_key": "k67"
+								}
+							],
+							"_key": "k68",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "校長",
+									"_key": "k69"
+								}
+							],
+							"_key": "k70",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "飯田 正勝　",
+									"_key": "k71",
+									"marks": [
+										"strong"
+									]
+								},
+								{
+									"_type": "span",
+									"text": "IT歴30年超。有限会社CNTサービス代表。",
+									"_key": "k72"
+								}
+							],
+							"_key": "k73",
+							"markDefs": []
+						}
+					]
+				}
+			},
+			{
+				"id": "contact",
+				"slug": "contact",
+				"status": "published",
+				"data": {
+					"title": "お問い合わせ",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "白いハッカースへのお問い合わせ方法は、ただいま準備中です。",
+									"_key": "k74"
+								}
+							],
+							"_key": "k75",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "blockquote",
+							"children": [
+								{
+									"_type": "span",
+									"text": "問い合わせ先（メールアドレスやフォーム）が決まりしだい、このページに掲載します。",
+									"_key": "k76"
+								}
+							],
+							"_key": "k77",
+							"markDefs": []
+						}
+					]
+				}
+			}
+		],
+		"posts": [
+			{
+				"id": "news-1",
+				"slug": "site-renewal",
+				"status": "published",
+				"bylines": [
+					{
+						"byline": "byline-principal"
+					}
+				],
+				"taxonomies": {
+					"category": [
+						"info"
+					],
+					"tag": [
+						"shiroi"
+					]
+				},
+				"data": {
+					"title": "ホームページをリニューアルしました",
+					"excerpt": "白いハッカースのホームページを新しくしました。教室の詳しい情報は、決まりしだいここでお知らせします。",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "白いハッカースのホームページを新しくしました。",
+									"_key": "k78"
+								}
+							],
+							"_key": "k79",
+							"markDefs": []
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "対象年齢・コース内容・料金などの教室の詳しい情報は、決まりしだいこの「お知らせ」でお伝えします。",
+									"_key": "k80"
+								}
+							],
+							"_key": "k81",
+							"markDefs": []
+						}
+					]
+				}
+			}
+		]
+	}
+}

@@ -1,0 +1,103 @@
+---
+import { getEmDashCollection, getTermsForEntries } from "emdash";
+import Base from "../../layouts/Base.astro";
+import PostCard from "../../components/PostCard.astro";
+import Pagination from "../../components/Pagination.astro";
+
+// Sort in the database rather than in JS — lets the DB use its index on
+// published_at and avoids a full-table scan on the client.
+const cursor = Astro.url.searchParams.get("cursor") || undefined;
+const {
+	entries: posts,
+	cacheHint,
+	nextCursor,
+} = await getEmDashCollection("posts", {
+	orderBy: { published_at: "desc" },
+	limit: 20,
+	cursor,
+});
+
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+
+// Single batched query for tags across all posts, instead of one
+// getEntryTerms() call per post (which would be N round-trips).
+// Bylines are already hydrated on entry.data.bylines.
+const tagsByEntry = await getTermsForEntries(
+	"posts",
+	posts.map((p) => p.data.id),
+	"tag",
+);
+
+const postsWithTags = posts.map((post) => ({
+	post,
+	tags: tagsByEntry.get(post.data.id) ?? [],
+}));
+---
+
+<Base title="お知らせ一覧" description="白いハッカースからのお知らせ一覧です。">
+	<header class="band intro">
+		<div class="frame">
+			<p class="eyebrow">News</p>
+			<h1 class="intro__title">お知らせ一覧</h1>
+			<p class="intro__lead">
+				教室からのお知らせを新しい順に並べています。
+			</p>
+		</div>
+	</header>
+
+	<section class="band section archive-band">
+		<div class="frame">
+			{
+				posts.length === 0 ? (
+					<div class="empty-state">
+						<h2 class="empty-state__title">
+							{cursor ? "これ以上のお知らせはありません" : "まだお知らせがありません"}
+						</h2>
+						<p class="empty-state__text">
+							{cursor
+								? "一覧の最後まで来ました。"
+								: "公開したお知らせがここに表示されます。"}
+						</p>
+						{cursor && (
+							<div class="empty-state__actions">
+								<a href="/news" class="btn btn--ghost">
+									最初のページへ
+								</a>
+							</div>
+						)}
+					</div>
+				) : (
+					<>
+						<ol class="archive__list">
+							{postsWithTags.map(({ post, tags }) => (
+								<li>
+									<PostCard post={post} tags={tags} variant="row" />
+								</li>
+							))}
+						</ol>
+						<Pagination
+							basePath="/news"
+							cursor={cursor}
+							nextCursor={nextCursor}
+						/>
+					</>
+				)
+			}
+		</div>
+	</section>
+</Base>
+
+<style>
+	/* The band's rule doubles as the first row divider */
+	.archive-band {
+		padding-block-start: 0;
+	}
+
+	.archive__list {
+		list-style: none;
+	}
+
+	.archive__list > li + li {
+		border-block-start: 1px solid var(--color-border);
+	}
+</style>

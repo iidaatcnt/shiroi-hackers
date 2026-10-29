@@ -1,0 +1,174 @@
+---
+import {
+	getEmDashCollection,
+	getEmDashEntry,
+	getTermsForEntries,
+	getSiteSettings,
+} from "emdash";
+import { PortableText } from "emdash/ui";
+import Base from "../layouts/Base.astro";
+import PostCard from "../components/PostCard.astro";
+import { resolveBlogSiteIdentity } from "../utils/site-identity";
+import "../styles/prose.css";
+
+// The home page body lives in the "home" fixed page so it can be edited in
+// the admin like any other page. The latest news is listed under it.
+const LATEST_NEWS = 3;
+
+const [homeResult, newsResult, settings] = await Promise.all([
+	getEmDashEntry("pages", "home"),
+	getEmDashCollection("posts", {
+		orderBy: { published_at: "desc" },
+		limit: LATEST_NEWS,
+	}),
+	getSiteSettings(),
+]);
+const home = homeResult.entry;
+const news = newsResult.entries;
+const { siteTitle, siteTagline } = resolveBlogSiteIdentity(settings);
+
+if (Astro.cache?.enabled) {
+	Astro.cache.set(homeResult.cacheHint);
+	Astro.cache.set(newsResult.cacheHint);
+}
+
+const tagsByEntry = await getTermsForEntries(
+	"posts",
+	news.map((n) => n.data.id),
+	"tag",
+);
+const newsWithTags = news.map((post) => ({
+	post,
+	tags: (tagsByEntry.get(post.data.id) ?? []).map((t) => ({
+		slug: t.slug,
+		label: t.label,
+	})),
+}));
+---
+
+<Base title={siteTitle} description={siteTagline}>
+	<header class="band intro hero">
+		<div class="frame hero__inner">
+			<p class="eyebrow hero__eyebrow">
+				<span aria-hidden="true">$</span> shiroi-hackers.com
+			</p>
+			<h1 class="intro__title hero__title">{siteTitle}</h1>
+			{siteTagline && <p class="intro__subtitle hero__tagline">{siteTagline}</p>}
+			<p class="hero__lead">
+				攻撃する側ではなく、システムやサイトを<strong>守る側</strong>の技術を学ぶ教室です。
+			</p>
+			<div class="hero__actions">
+				<a href="/about" class="btn">教室について</a>
+				<a href="/contact" class="btn btn--ghost">お問い合わせ</a>
+			</div>
+		</div>
+	</header>
+
+	{
+		home ? (
+			<section class="band section">
+				<div class="frame home-body">
+					<div class="prose" {...home.edit.content}>
+						<PortableText value={home.data.content} />
+					</div>
+				</div>
+			</section>
+		) : (
+			<section class="band section">
+				<div class="frame">
+					<div class="empty-state">
+						<h2 class="empty-state__title">トップページの本文がまだありません</h2>
+						<p class="empty-state__text">
+							管理画面の「固定ページ」で、スラッグが home のページを作ると、ここに表示されます。
+						</p>
+						<div class="empty-state__actions">
+							<a href="/_emdash/admin/content/pages/new" class="btn">
+								ページを作る
+							</a>
+						</div>
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	{
+		news.length > 0 && (
+			<section class="band section" aria-labelledby="latest-news">
+				<div class="frame">
+					<div class="section-head">
+						<h2 id="latest-news" class="section-head__title">
+							お知らせ
+						</h2>
+						<a href="/news" class="arrow-link">
+							すべて見る
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.75"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								aria-hidden="true"
+							>
+								<path d="M5 12h14" />
+								<path d="m12 5 7 7-7 7" />
+							</svg>
+						</a>
+					</div>
+					<div class="post-grid">
+						{newsWithTags.map(({ post, tags }) => (
+							<PostCard post={post} tags={tags} variant="card" headingLevel={3} />
+						))}
+					</div>
+				</div>
+			</section>
+		)
+	}
+</Base>
+
+<style>
+	.hero__inner {
+		display: grid;
+		gap: var(--spacing-4);
+		justify-items: start;
+	}
+
+	.hero__eyebrow {
+		font-family: var(--font-mono);
+		color: var(--color-brand);
+		text-transform: none;
+	}
+
+	.hero__title {
+		font-size: clamp(2.75rem, 1.5rem + 6vw, 5.5rem);
+		line-height: 1.05;
+	}
+
+	.hero__tagline {
+		font-size: clamp(1.25rem, 1rem + 1.5vw, 1.875rem);
+		max-width: none;
+	}
+
+	.hero__lead {
+		max-width: 36rem;
+		color: var(--color-text-secondary);
+		font-size: var(--font-size-lg, 1.125rem);
+		line-height: 1.9;
+	}
+
+	.hero__lead strong {
+		color: var(--color-brand);
+	}
+
+	.hero__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--spacing-3);
+		margin-block-start: var(--spacing-2);
+	}
+
+	.home-body {
+		max-width: calc(var(--content-width) + 2 * var(--spacing-6, 1.5rem));
+	}
+</style>
