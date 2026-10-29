@@ -4,11 +4,11 @@
 	"main": "./src/worker.ts",
 	"compatibility_date": "2026-02-24",
 	"compatibility_flags": ["nodejs_compat"],
-	// 初回デプロイで D1 と R2 が自動で作られ、database_id がここに書き足されます
 	"d1_databases": [
 		{
 			"binding": "DB",
 			"database_name": "shiroi-hackers",
+			"database_id": "460ed69e-7ed4-44b8-bc4d-3c2fc8a22638",
 		},
 	],
 	// 前回のデプロイで先に作られたセッション用KVを使い回す

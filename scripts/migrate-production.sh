@@ -11,9 +11,12 @@ CLOUDFLARE_API_TOKEN="$(npx wrangler auth token --json 2>/dev/null | node -e 'le
 CLOUDFLARE_ACCOUNT_ID="$(npx wrangler whoami --json 2>/dev/null | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>console.log(JSON.parse(s).accounts[0].id))')"
 export CLOUDFLARE_API_TOKEN CLOUDFLARE_ACCOUNT_ID
 
+# 本番のD1（wrangler.jsonc の database_id と同じ）
+D1_ID="460ed69e-7ed4-44b8-bc4d-3c2fc8a22638"
+
 if [ -n "${1:-}" ]; then
-	npx emdash migrate --from-config --take-over-lock="$1"
+	npx emdash migrate --from-config --d1="$D1_ID" --take-over-lock="$1"
 else
-	npx emdash migrate --from-config --status || true
-	npx emdash migrate --from-config
+	npx emdash migrate --from-config --d1="$D1_ID" --status || true
+	npx emdash migrate --from-config --d1="$D1_ID"
 fi
